@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+npm-debug.log
+package-lock.json
+yarn.lock
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build & Distribution
+dist/
+build/
+*.min.js
+*.min.css
+
+# Logs
+logs/
+*.log
+
+# Misc
+.cache
+.temp
+temp/
+coverage/
+
+# OS backups
+*~
+*.bak

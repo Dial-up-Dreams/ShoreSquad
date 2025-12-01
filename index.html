@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ShoreSquad - Rally your crew, track weather, and hit the next beach cleanup with our dope map app!">
+    <meta name="theme-color" content="#0A7EA4">
+    
+    <title>ShoreSquad - Beach Cleanup Community</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23FF6B6B'>🌊</text></svg>">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Leaflet Map Library (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <h1>🌊 ShoreSquad</h1>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#map" class="nav-link">Map</a></li>
+                <li><a href="#events" class="nav-link">Events</a></li>
+                <li><a href="#weather" class="nav-link">Weather</a></li>
+                <li><a href="#team" class="nav-link">My Crew</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" role="banner">
+        <div class="hero-content">
+            <h2>Rally Your Crew. Clean Our Beaches.</h2>
+            <p>Join thousands of ocean lovers planning eco-friendly cleanups. Track weather, coordinate with your crew, and make a real impact.</p>
+            <button class="btn btn-primary" id="ctaButton" aria-label="Get started with ShoreSquad">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Map Section -->
+        <section id="map" class="section">
+            <div class="section-header">
+                <h2>Find Your Next Cleanup</h2>
+                <p>Discover beach cleanup events near you</p>
+            </div>
+            <div id="mapContainer" class="map-container" role="region" aria-label="Interactive map showing beach cleanup events">
+                <!-- Map will be initialized here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Weather Section -->
+        <section id="weather" class="section">
+            <div class="section-header">
+                <h2>Beach Conditions</h2>
+                <p>Real-time weather for your next cleanup</p>
+            </div>
+            <div class="weather-grid" id="weatherWidget" role="region" aria-label="Weather information">
+                <div class="weather-card">
+                    <h3>Temperature</h3>
+                    <p id="temp" class="weather-data">--°C</p>
+                </div>
+                <div class="weather-card">
+                    <h3>Wind Speed</h3>
+                    <p id="wind" class="weather-data">-- km/h</p>
+                </div>
+                <div class="weather-card">
+                    <h3>Humidity</h3>
+                    <p id="humidity" class="weather-data">--%</p>
+                </div>
+                <div class="weather-card">
+                    <h3>UV Index</h3>
+                    <p id="uv" class="weather-data">--</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="section">
+            <div class="section-header">
+                <h2>Upcoming Events</h2>
+                <p>See what your crew is planning</p>
+            </div>
+            <div class="events-list" id="eventsList" role="region" aria-label="List of upcoming cleanup events">
+                <p class="loading">Loading events...</p>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section id="team" class="section">
+            <div class="section-header">
+                <h2>My Crew</h2>
+                <p>Stay connected with your cleanup squad</p>
+            </div>
+            <div class="team-grid" id="teamGrid" role="region" aria-label="Your crew members">
+                <button class="team-card add-member" id="addMemberBtn" aria-label="Add new crew member">
+                    <span class="plus">+</span>
+                    <p>Add Member</p>
+                </button>
+            </div>
+        </section>
+
+        <!-- Impact Stats -->
+        <section class="impact-section">
+            <div class="section-header">
+                <h2>Our Impact</h2>
+            </div>
+            <div class="stats-grid" role="region" aria-label="ShoreSquad community impact statistics">
+                <div class="stat-card">
+                    <h3>Beaches Cleaned</h3>
+                    <p class="stat-number">1,247</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Volunteers</h3>
+                    <p class="stat-number">8,593</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Lbs of Trash</h3>
+                    <p class="stat-number">45,239</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Events</h3>
+                    <p class="stat-number">2,104</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <p>&copy; 2025 ShoreSquad. Rally your crew. Clean our beaches.</p>
+            <div class="footer-links">
+                <a href="#" aria-label="Visit our Facebook">Facebook</a>
+                <a href="#" aria-label="Visit our Instagram">Instagram</a>
+                <a href="#" aria-label="Visit our Twitter">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>
