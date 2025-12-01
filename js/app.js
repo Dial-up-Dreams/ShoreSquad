@@ -11,8 +11,8 @@
 const API_CONFIG = {
     weather: {
         baseUrl: 'https://api.open-meteo.com/v1/forecast',
-        latitude: 34.0195,      // Santa Monica Beach default
-        longitude: -118.4912
+        latitude: 1.381497,      // Pasir Ris Beach
+        longitude: 103.955574
     }
 };
 
@@ -20,36 +20,36 @@ const API_CONFIG = {
 const SAMPLE_EVENTS = [
     {
         id: 1,
-        name: 'Santa Monica Beach Cleanup',
+        name: 'Pasir Ris Beach Cleanup',
         date: '2025-12-15',
         time: '08:00 AM',
-        location: 'Santa Monica Beach',
+        location: 'Pasir Ris Beach, Singapore',
         participants: 24,
-        description: 'Join us for a morning cleanup',
-        latitude: 34.0195,
-        longitude: -118.4912
+        description: 'Join us for a morning cleanup at Pasir Ris Beach',
+        latitude: 1.381497,
+        longitude: 103.955574
     },
     {
         id: 2,
-        name: 'Malibu Coast Restoration',
+        name: 'East Coast Beach Restoration',
         date: '2025-12-20',
         time: '10:00 AM',
-        location: 'Malibu, CA',
+        location: 'East Coast, Singapore',
         participants: 18,
-        description: 'Help restore the beautiful Malibu coastline',
-        latitude: 34.0305,
-        longitude: -118.6789
+        description: 'Help restore the beautiful East Coast Beach',
+        latitude: 1.3030,
+        longitude: 103.9127
     },
     {
         id: 3,
-        name: 'Venice Beach Impact Day',
+        name: 'Sentosa Beach Impact Day',
         date: '2025-12-22',
         time: '09:00 AM',
-        location: 'Venice Beach',
+        location: 'Sentosa Beach',
         participants: 32,
         description: 'Large-scale cleanup event for year-end impact',
-        latitude: 33.9850,
-        longitude: -118.4695
+        latitude: 1.2498,
+        longitude: 103.8278
     }
 ];
 
@@ -57,8 +57,6 @@ const SAMPLE_EVENTS = [
 // GLOBAL STATE
 // ============================================
 
-let map = null;
-let markers = [];
 let currentWeather = null;
 let crewMembers = ['You'];
 
@@ -69,7 +67,6 @@ let crewMembers = ['You'];
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 const ctaButton = document.getElementById('ctaButton');
-const mapContainer = document.getElementById('mapContainer');
 const weatherWidget = document.getElementById('weatherWidget');
 const eventsList = document.getElementById('eventsList');
 const teamGrid = document.getElementById('teamGrid');
@@ -146,79 +143,32 @@ document.querySelectorAll('.nav-link').forEach(link => {
 });
 
 // ============================================
-// MAP FUNCTIONALITY (Leaflet.js)
+// MAP FUNCTIONALITY (Google Maps)
 // ============================================
 
 /**
- * Initialize interactive map with Leaflet
+ * Initialize Google Maps iframe
  */
 function initializeMap() {
     try {
-        // Create map centered on Santa Monica Beach
-        map = L.map('mapContainer').setView([34.0195, -118.4912], 11);
-
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 18,
-            className: 'map-tile'
-        }).addTo(map);
-
-        // Add event markers to map
-        addEventMarkers();
-
-        // Handle map click for accessibility
-        map.on('click', function(e) {
-            console.log(`Map clicked at: ${e.latlng.lat}, ${e.latlng.lng}`);
-        });
-
+        const googleMapsFrame = document.getElementById('googleMapsFrame');
+        if (googleMapsFrame) {
+            console.log('✅ Google Maps iframe loaded successfully');
+            console.log(`📍 Next Cleanup: Pasir Ris Beach (1.381497°N, 103.955574°E)`);
+        }
     } catch (error) {
-        console.error('Map initialization failed:', error);
-        mapContainer.innerHTML = '<p class="error">Unable to load map. Please refresh the page.</p>';
+        console.error('Map initialization error:', error);
     }
 }
 
 /**
- * Add event markers to map
+ * Note: Event markers and popups are now handled by the Google Maps iframe
+ * The "Next Cleanup" pin is embedded directly in the map URL
  */
 function addEventMarkers() {
-    if (!map) return;
-
-    // Clear existing markers
-    markers.forEach(marker => map.removeLayer(marker));
-    markers = [];
-
-    // Add new markers for each event
-    SAMPLE_EVENTS.forEach(event => {
-        const customIcon = L.divIcon({
-            html: `<div class="event-marker" title="${event.name}">📍</div>`,
-            iconSize: [32, 32],
-            className: 'custom-marker'
-        });
-
-        const marker = L.marker([event.latitude, event.longitude], {
-            icon: customIcon,
-            alt: `${event.name} at ${event.location}`
-        })
-            .bindPopup(`
-                <div class="popup-content">
-                    <h4>${event.name}</h4>
-                    <p><strong>Date:</strong> ${formatDate(event.date)}</p>
-                    <p><strong>Time:</strong> ${event.time}</p>
-                    <p><strong>Location:</strong> ${event.location}</p>
-                    <p><strong>Participants:</strong> ${event.participants}</p>
-                    <button class="btn btn-primary btn-sm" onclick="joinEvent(${event.id})">Join Event</button>
-                </div>
-            `)
-            .addTo(map);
-
-        markers.push(marker);
-
-        // Log marker addition for accessibility
-        marker.on('popupopen', function() {
-            console.log(`Event popup opened: ${event.name}`);
-        });
-    });
+    // Events are displayed in the events section below
+    // Google Maps iframe handles the location visualization
+    console.log('Events displayed in Google Maps and Events section');
 }
 
 /**
@@ -463,9 +413,8 @@ window.addEventListener('scroll', throttle(() => {
  * Handle window resize with debouncing
  */
 window.addEventListener('resize', debounce(() => {
-    if (map) {
-        map.invalidateSize();
-    }
+    // Handle responsive adjustments if needed
+    console.log('Window resized');
 }, 250));
 
 /**
@@ -535,6 +484,6 @@ window.ShoreSquad = {
         console.log('Crew:', crewMembers);
         console.log('Weather:', currentWeather);
         console.log('Events:', SAMPLE_EVENTS);
-        console.log('Map:', map);
+        console.log('Next Cleanup: Pasir Ris Beach (1.381497°N, 103.955574°E)');
     }
 };

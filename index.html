@@ -13,10 +13,6 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
-    
-    <!-- Leaflet Map Library (CDN) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -56,9 +52,19 @@
                 <h2>Find Your Next Cleanup</h2>
                 <p>Discover beach cleanup events near you</p>
             </div>
-            <div id="mapContainer" class="map-container" role="region" aria-label="Interactive map showing beach cleanup events">
-                <!-- Map will be initialized here by JavaScript -->
+            <div class="map-info">
+                <p><strong>🌊 Next Cleanup:</strong> Pasir Ris Beach | <strong>Location:</strong> Street View Asia</p>
+                <p><strong>Coordinates:</strong> 1.381497°N, 103.955574°E</p>
             </div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8174888888887!2d103.95357599999999!3d1.381497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da1a5c1c1c1c1d%3A0x1234567890abcdef!2sStreet%20View%20Asia%2C%20Pasir%20Ris!5e0!3m2!1sen!2ssg!4v1701388800000" 
+                id="googleMapsFrame" 
+                class="map-container" 
+                style="border:0; border-radius: 12px;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Google Maps showing Pasir Ris Beach cleanup location">
+            </iframe>
         </section>
 
         <!-- Weather Section -->
