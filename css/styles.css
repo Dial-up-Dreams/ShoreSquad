@@ -290,74 +290,14 @@ a:hover {
     color: var(--accent-color);
 }
 
-.map-wrapper {
-    position: relative;
+.map-container {
     width: 100%;
     height: 500px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow);
-}
-
-.map-container {
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    overflow: hidden;
     background-color: var(--border-color);
     display: block;
-}
-
-#googleMapsFrame {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-.map-pin-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.pin-marker {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    animation: bounce 2s infinite;
-}
-
-.pin-icon {
-    font-size: 2.5rem;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.pin-label {
-    background: var(--accent-color);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    margin: 0;
-    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
-    white-space: nowrap;
-}
-
-@keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
 }
 
 /* ============================================
@@ -693,10 +633,6 @@ input:focus {
         height: 400px;
     }
 
-    .map-wrapper {
-        height: 400px;
-    }
-
     .weather-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -740,10 +676,6 @@ input:focus {
     }
 
     .map-container {
-        height: 300px;
-    }
-
-    .map-wrapper {
         height: 300px;
     }
 
