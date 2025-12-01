@@ -73,7 +73,9 @@
                 <h2>Beach Conditions</h2>
                 <p>Real-time weather for your next cleanup</p>
             </div>
-            <div class="weather-grid" id="weatherWidget" role="region" aria-label="Weather information">
+            
+            <!-- Current Weather -->
+            <div class="weather-grid" id="weatherWidget" role="region" aria-label="Current weather information">
                 <div class="weather-card">
                     <h3>Temperature</h3>
                     <p id="temp" class="weather-data">--°C</p>
@@ -87,8 +89,16 @@
                     <p id="humidity" class="weather-data">--%</p>
                 </div>
                 <div class="weather-card">
-                    <h3>UV Index</h3>
-                    <p id="uv" class="weather-data">--</p>
+                    <h3>Weather</h3>
+                    <p id="weather-condition" class="weather-data">--</p>
+                </div>
+            </div>
+
+            <!-- 4-Day Forecast -->
+            <div class="forecast-section">
+                <h3>4-Day Forecast</h3>
+                <div class="forecast-grid" id="forecastWidget" role="region" aria-label="4-day weather forecast">
+                    <p class="loading">Loading forecast...</p>
                 </div>
             </div>
         </section>

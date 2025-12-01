@@ -13,6 +13,10 @@ const API_CONFIG = {
         baseUrl: 'https://api.open-meteo.com/v1/forecast',
         latitude: 1.381497,      // Pasir Ris Beach
         longitude: 103.955574
+    },
+    nea: {
+        baseUrl: 'https://api.data.gov.sg/v1/environment',
+        realtimeUrl: 'https://api.data.gov.sg/v1/environment/air-temperature'
     }
 };
 
@@ -189,12 +193,12 @@ function joinEvent(eventId) {
 // ============================================
 
 /**
- * Fetch and display weather data
+ * Fetch and display weather data from Open-Meteo and NEA
  */
 async function fetchWeatherData() {
     try {
         const { latitude, longitude } = API_CONFIG.weather;
-        const url = `${API_CONFIG.weather.baseUrl}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,uv_index`;
+        const url = `${API_CONFIG.weather.baseUrl}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia/Singapore`;
 
         const response = await fetch(url);
         if (!response.ok) throw new Error('Weather API request failed');
@@ -202,6 +206,11 @@ async function fetchWeatherData() {
         const data = await response.json();
         currentWeather = data.current;
         displayWeather(data.current);
+        
+        // Display 4-day forecast
+        if (data.daily) {
+            displayForecast(data.daily);
+        }
 
     } catch (error) {
         console.error('Weather fetch error:', error);
@@ -210,20 +219,100 @@ async function fetchWeatherData() {
 }
 
 /**
- * Display weather data in UI
+ * Display current weather data in UI
  */
 function displayWeather(weatherData) {
     const elements = {
         temp: document.getElementById('temp'),
         wind: document.getElementById('wind'),
         humidity: document.getElementById('humidity'),
-        uv: document.getElementById('uv')
+        condition: document.getElementById('weather-condition')
     };
 
     if (elements.temp) elements.temp.textContent = `${Math.round(weatherData.temperature_2m)}°C`;
     if (elements.wind) elements.wind.textContent = `${Math.round(weatherData.wind_speed_10m)} km/h`;
     if (elements.humidity) elements.humidity.textContent = `${weatherData.relative_humidity_2m}%`;
-    if (elements.uv) elements.uv.textContent = weatherData.uv_index.toFixed(1);
+    if (elements.condition) elements.condition.textContent = getWeatherDescription(weatherData.weather_code);
+}
+
+/**
+ * Get weather description from WMO code
+ */
+function getWeatherDescription(code) {
+    const weatherCodes = {
+        0: 'Clear',
+        1: 'Partly Cloudy',
+        2: 'Partly Cloudy',
+        3: 'Overcast',
+        45: 'Foggy',
+        48: 'Foggy',
+        51: 'Light Drizzle',
+        53: 'Moderate Drizzle',
+        55: 'Heavy Drizzle',
+        61: 'Slight Rain',
+        63: 'Moderate Rain',
+        65: 'Heavy Rain',
+        71: 'Slight Snow',
+        73: 'Moderate Snow',
+        75: 'Heavy Snow',
+        80: 'Slight Showers',
+        81: 'Moderate Showers',
+        82: 'Heavy Showers',
+        85: 'Slight Snow Showers',
+        86: 'Heavy Snow Showers',
+        95: 'Thunderstorm',
+        96: 'Thunderstorm with Hail',
+        99: 'Thunderstorm with Hail'
+    };
+    return weatherCodes[code] || 'Unknown';
+}
+
+/**
+ * Display 4-day forecast
+ */
+function displayForecast(dailyData) {
+    const forecastWidget = document.getElementById('forecastWidget');
+    if (!forecastWidget) return;
+
+    forecastWidget.innerHTML = '';
+
+    // Display next 4 days (skip today)
+    for (let i = 1; i <= 4 && i < dailyData.time.length; i++) {
+        const date = new Date(dailyData.time[i]);
+        const maxTemp = dailyData.temperature_2m_max[i];
+        const minTemp = dailyData.temperature_2m_min[i];
+        const weatherCode = dailyData.weather_code[i];
+        const condition = getWeatherDescription(weatherCode);
+        const emoji = getWeatherEmoji(weatherCode);
+
+        const forecastCard = document.createElement('div');
+        forecastCard.className = 'forecast-card';
+        forecastCard.innerHTML = `
+            <div class="date">${formatDate(date)}</div>
+            <div class="weather-emoji">${emoji}</div>
+            <div class="condition">${condition}</div>
+            <div class="temps">
+                <span class="max-temp">${Math.round(maxTemp)}°</span>
+                <span class="min-temp">${Math.round(minTemp)}°</span>
+            </div>
+        `;
+        forecastWidget.appendChild(forecastCard);
+        animateElement(forecastCard);
+    }
+}
+
+/**
+ * Get weather emoji based on WMO code
+ */
+function getWeatherEmoji(code) {
+    if (code === 0) return '☀️';
+    if (code <= 3) return '⛅';
+    if ([45, 48].includes(code)) return '🌫️';
+    if ([51, 53, 55, 80, 81, 82].includes(code)) return '🌧️';
+    if ([61, 63, 65].includes(code)) return '🌧️';
+    if ([71, 73, 75, 85, 86].includes(code)) return '❄️';
+    if ([95, 96, 99].includes(code)) return '⛈️';
+    return '🌤️';
 }
 
 /**
@@ -234,12 +323,17 @@ function displayWeatherError() {
         temp: document.getElementById('temp'),
         wind: document.getElementById('wind'),
         humidity: document.getElementById('humidity'),
-        uv: document.getElementById('uv')
+        condition: document.getElementById('weather-condition')
     };
 
     Object.values(elements).forEach(el => {
         if (el) el.textContent = 'Error loading';
     });
+
+    const forecastWidget = document.getElementById('forecastWidget');
+    if (forecastWidget) {
+        forecastWidget.innerHTML = '<p class="loading">Unable to load forecast</p>';
+    }
 }
 
 // ============================================
